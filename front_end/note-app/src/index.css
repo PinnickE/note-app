@@ -8,3 +8,10 @@ body {
 }
 
 
+.block {
+  display: block;
+}
+
+.mt-3 {
+  margin-top: 2rem;
+}
