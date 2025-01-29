@@ -1,5 +1,5 @@
 import React from 'react'
-import Headboard from '../components/headboard'
+import Headboard from '../components/header'
 import "../styles/dashboard.css"
 import Dashcard from '../components/dashcard'
 

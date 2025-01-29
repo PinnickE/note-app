@@ -6,5 +6,6 @@
 .card_container .icons {
     display: flex;
     width: 100%;
-    justify-items: flex-end;
+    /* justify-items: flex-end; */
+    justify-content: end;
 }

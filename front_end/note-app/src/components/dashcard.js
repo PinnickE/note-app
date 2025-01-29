@@ -9,7 +9,7 @@ export default function Dashcard(props) {
   return (
     <div className='card_container'>
         <h4 className='card_head'>{cardName}</h4>
-        <p className='card\-text'>{cardNote}</p>
+        <p className='card-text'>{cardNote}</p>
 
         <div className='icons'>
           <div className='pen'><FontAwesomeIcon icon={faPenToSquare} /></div>
