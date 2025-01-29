@@ -1,0 +1,10 @@
+.card_container {
+    padding: 1rem;
+    width: 20rem;
+}
+
+.card_container .icons {
+    display: flex;
+    width: 100%;
+    justify-items: flex-end;
+}

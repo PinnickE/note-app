@@ -1,0 +1,19 @@
+.headboard_container {
+    width: 99%;
+    display: flex;
+    background-color: #1F2936;
+    justify-content: space-between;
+    padding: 0.2rem 1rem;
+}
+
+.headboard_container .logo {
+    color: #FFF;
+}
+
+.headboard_container .profile_box {
+    display: flex;
+}
+
+.headboard_container .profile_box .username, .headboard_container .profile_box button {
+    margin: 1rem;
+}
