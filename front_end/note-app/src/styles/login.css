@@ -1,0 +1,33 @@
+.login_container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+}
+
+.login_container .login_card {
+    background-color: #FFFFFF;
+    border: 1px solid #d1d5db;
+    height: 60vh;
+    width: 20rem;
+    padding: 1.5rem;
+}
+
+.login_container .login_card .input_segment {
+    margin-top: 0.5rem;
+}
+
+.login_container .login_card .input_segment input {
+    width: 100%;
+    padding: 0.75rem 0;
+    border: 1px solid #d1d5db;
+}
+
+.action button {
+    width: 100%;
+    background-color: #0D8F83;
+    color: #FFFFFF;
+    padding: 0.5rem 0;
+    margin-top: 1.5rem;
+}
