@@ -1,0 +1,46 @@
+.header_container {
+    width: 99%;
+    display: flex;
+    background-color: #1F2936;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding: 0.2rem 1rem;
+}
+
+.header_container .logo {
+    /* color: #FFF; */
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.header_container .logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.header_container input {
+    padding: 0.5rem 1rem;
+    background-color: rgb(75, 85, 99, 1);
+    border: none;
+    border-radius: 0.25rem;
+}
+
+.header_container input::placeholder {
+    color: #a1a1a1;
+}
+
+.header_container .profile_box .username {
+    margin-right: 1rem;
+}
+
+.header_container .profile_box a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+.header_container .profile_box .username, .header_container .profile_box button {
+    margin-right: 1rem;
+    cursor: pointer;
+}
