@@ -22,4 +22,16 @@
  * import the library in you main file
  * call the function dotenv.config()
  * process.env.DATABASE
+ * 
+ * MODELS for this note application
+ * 
+ * USER MODEL:
+ * name,email,password,dob,etcccccc
+ * 
+ * 
+ * NOTE MODEL:
+ * title, description
+ * 
+ * 
+ * 
  */

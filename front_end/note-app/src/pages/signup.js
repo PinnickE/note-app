@@ -10,6 +10,10 @@ export default function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        //sends the request to the backend
+        // const response = req.send
+        //if (response.sucess == true)
+        // sign this user in
         console.log("User Signup successfully: ", name, email, password)
         navigate('/login')
     }
