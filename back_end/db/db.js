@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const connectToDB = async () => {
     await mongoose.connect(process.env.DATABASE)
+    // await mongoose.connect(process.env.GIDEONDATABASE)
     // mongoose.set("strictQuery", true);
-    console.log("Database is Running")
+    console.log("Database is Running")  
 }
 
-export default connectToDB;
+export default connectToDB;  
