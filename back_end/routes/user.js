@@ -1,6 +1,7 @@
 import express from 'express'
 import User from '../models/user.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -16,12 +17,13 @@ const router = express.Router()
  * send the response back to the user(sucess:true, data)
  */
 router.post('/register', async (req, res) => {
-    console.log("It has entered this registered function")
+    try {
+        console.log("It has entered this registered function")
     const {name, email, password} = req.body
 
     console.log("name, email, password: ", name, email, password)
 
-    const user = await User.findOne({email}) 
+    const user = await User.findOne({email})
 
     if(user) {
         return res.status(400).json({
@@ -34,16 +36,22 @@ router.post('/register', async (req, res) => {
 
     const newUserObject = new User({
         name: name,
-        email: email,
+        email: email, 
         password: hashedPassword
     })
 
     await newUserObject.save()
 
-    return res.status(201).json({
+    return res.status(200).json({
         success: true,
         message: "Account Created Successfully"
     })
+    } catch (error) {
+        return res.status(500).json({
+            success: false, 
+            message: "Server Error"
+        })
+    }
 })
 
 /**
@@ -74,10 +82,55 @@ Handle Errors:
 If an error occurs during the process (like a server issue), a response with a "Server Error" message is sent back. 
  * 
  * 
+jsonwebtoken
 
+JWT_TOKEN=secretkeyofnoteapp123@#
 
  */
 
+router.post('/login', async (req, res) => {
+    try {
+        const {email, password} = req.body;
+
+        
+
+        const user = await User.findOne({email})
+
+        if(!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User Not exist"
+            })
+        }
+
+        const checkPassword = await bcrypt.compare(password, user.password)
+
+        if (!checkPassword) {
+            return res.status(401).json({
+                success: false,
+                message: "Password is incorrect"
+            })
+        }
+
+        const token = jwt.sign({id: user._id}, process.env.JWT_TOKEN, {expiresIn: "5m"})
+
+        console.log("token: ", token)
+
+        return res.status(200).json({
+            success: true,
+            message: "Login Successfully",
+            token,
+            user: {name: user.name, email: user.email},
+        })
+
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false, 
+            message: "Server Error"
+        })
+    }
+})
 
 
 
