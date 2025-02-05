@@ -46,6 +46,40 @@ router.post('/register', async (req, res) => {
     })
 })
 
+/**
+ * 
+ *Steps for User Login
+Receive User Input:
+
+The route /login listens for POST requests.
+The req.body contains the user’s email and password sent from the frontend.
+Find the User by Email:
+
+The database is searched to find a user with the provided email.
+If no user is found, a response is sent with an error message saying "User Not exist."
+Check the Password:
+
+If the user exists, the entered password is compared with the stored (hashed) password using bcrypt.compare().
+If the passwords don’t match, a response is sent with the message "Wrong Credentials."
+Generate a Token:
+
+If the credentials are correct, a JSON Web Token (JWT) is generated using jwt.sign().
+The token contains the user’s ID and has an expiration time of 5 hours (expiresIn: "5h").
+Send a Success Response:
+
+A success message is sent back to the frontend, along with the token and the user’s name.
+The frontend can use the token for authentication in future requests.
+Handle Errors:
+
+If an error occurs during the process (like a server issue), a response with a "Server Error" message is sent back. 
+ * 
+ * 
+
+
+ */
+
+
+
 
 
 export default router
