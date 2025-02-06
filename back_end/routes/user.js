@@ -17,41 +17,39 @@ const router = express.Router()
  * send the response back to the user(sucess:true, data)
  */
 router.post('/register', async (req, res) => {
-    try {
-        console.log("It has entered this registered function")
-    const {name, email, password} = req.body
-
-    console.log("name, email, password: ", name, email, password)
+   try {
+    const {name, email, password} = req.body;
 
     const user = await User.findOne({email})
+ 
+    if (user) {
+      return res.status(400).json({
+         success: false,
+         message: "This user already exists."
+      })
+    };
 
-    if(user) {
-        return res.status(400).json({
-            success: false,
-            message: "User already exist"
-        })
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUserObject = new User({
-        name: name,
-        email: email, 
-        password: hashedPassword
-    })
-
+      name: name,
+      email: email,
+      password: hashedPassword
+    });
+ 
     await newUserObject.save()
 
     return res.status(200).json({
-        success: true,
-        message: "Account Created Successfully"
-    })
-    } catch (error) {
-        return res.status(500).json({
-            success: false, 
-            message: "Server Error"
-        })
-    }
+      success: true,
+      message: "Sign-up successful."
+   })
+   } catch (error) {
+    console.log("error from the backend", error)
+      return res.status(500).json({
+         success: false,
+         message: "Server error."
+      })
+   }
 })
 
 /**
@@ -89,47 +87,7 @@ JWT_TOKEN=secretkeyofnoteapp123@#
  */
 
 router.post('/login', async (req, res) => {
-    try {
-        const {email, password} = req.body;
-
-        
-
-        const user = await User.findOne({email})
-
-        if(!user) {
-            return res.status(400).json({
-                success: false,
-                message: "User Not exist"
-            })
-        }
-
-        const checkPassword = await bcrypt.compare(password, user.password)
-
-        if (!checkPassword) {
-            return res.status(401).json({
-                success: false,
-                message: "Password is incorrect"
-            })
-        }
-
-        const token = jwt.sign({id: user._id}, process.env.JWT_TOKEN, {expiresIn: "5m"})
-
-        console.log("token: ", token)
-
-        return res.status(200).json({
-            success: true,
-            message: "Login Successfully",
-            token,
-            user: {name: user.name, email: user.email},
-        })
-
-
-    } catch (error) {
-        return res.status(500).json({
-            success: false, 
-            message: "Server Error"
-        })
-    }
+    
 })
 
 

@@ -1,21 +1,42 @@
 import React, { useState } from 'react'
 import '../styles/signup.css'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signup() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        //sends the request to the backend
-        // const response = req.send
-        //if (response.sucess == true)
-        // sign this user in
-        console.log("User Signup successfully: ", name, email, password)
-        navigate('/login')
+        setErrorMessage("")
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/register', {
+                name,
+                email,
+                password
+            })
+
+            console.log("response: ", response)
+
+            if (response.data.success) {
+                alert("Account created successfully! please login")
+            } else if (response.status === 400) {
+                setErrorMessage(response.data.message)
+            }
+
+            console.log(response.data.message)
+            // navigate('/login')
+        } catch (error) {
+            console.log("error insconsole: ", error)
+            if (error.response.status === 400){
+                setErrorMessage(error.response.data.message)
+            }
+        }
     }
     
   return (
@@ -36,6 +57,10 @@ export default function Signup() {
                 <div>
                     <label htmlFor='name'>Password</label>
                     <input placeholder='************' id='password' onChange={(e) => setPassword(e.target.value)} type='password' required className='signup_input'/>
+
+                    {errorMessage && <p style={{color: "red", fontSize: "14px"}}>{errorMessage}</p>}
+
+                    
                 </div>
 
                 <div className='mt-3'>
