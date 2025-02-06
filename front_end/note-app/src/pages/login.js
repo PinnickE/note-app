@@ -15,6 +15,27 @@ export default function Login() {
   //   navigate("/dashboard");
   // }
 
+  // const submitLogin = async (e) => {
+  //   e.preventDefault();
+  
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/api/auth/login", {
+  //       email: loginEmail,
+  //       password: loginPassword
+  //     });
+  
+  //     if (response.data.success) {
+  //       localStorage.setItem("token", response.data.token);
+  //       localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user details
+  //       navigate("/dashboard");
+  //     } else {
+  //       alert(response.data.message);
+  //     }
+  //   } catch (error) {
+  //     alert("Login failed. Please check your credentials.");
+  //   }
+  // };
+
   const submitLogin = async (e) => {
     e.preventDefault();
   
@@ -26,7 +47,9 @@ export default function Login() {
   
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user details
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("token_expiration", response.data.expirationTime.toString());
+  
         navigate("/dashboard");
       } else {
         alert(response.data.message);

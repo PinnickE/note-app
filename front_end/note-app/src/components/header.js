@@ -13,9 +13,31 @@ export default function Header () {
     }
   }, []);
 
+  useEffect(() => {
+    const checkTokenExpiration = () => {
+      const expirationTime = localStorage.getItem("token_expiration");
+
+      if (expirationTime && Date.now() > Number(expirationTime)) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token_expiration");
+        setUser(null);
+        navigate("/login");
+      }
+    };
+
+    // Check immediately and every 5 seconds
+    checkTokenExpiration();
+    const interval = setInterval(checkTokenExpiration, 5 * 1000);
+
+    return () => clearInterval(interval);
+  }, [navigate]);
+
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("token_expiration");
     setUser(null);
     navigate("/login");
   };

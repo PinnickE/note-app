@@ -103,6 +103,7 @@ router.post('/login', async (req, res) => {
             })
         }
 
+        const expiresIn = 60; // 1 minute
         const checkPassword = await bcrypt.compare(password, user.password)
 
         if (!checkPassword) {
@@ -112,7 +113,8 @@ router.post('/login', async (req, res) => {
             })
         }
 
-        const token = await jwt.sign({id: user._id}, process.env.JWT_TOKEN, {expiresIn: "1m"})
+        const token = await jwt.sign({id: user._id}, process.env.JWT_TOKEN, {expiresIn})
+        const expirationTime = Date.now() + expiresIn * 1000;
 
         console.log("token: ", token)
 
@@ -120,6 +122,7 @@ router.post('/login', async (req, res) => {
             success: true,
             message: "Login Successfully",
             token,
+            expirationTime,
             user: {name: user.name, email: user.email},
         })
 
