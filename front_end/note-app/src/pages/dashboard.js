@@ -1,5 +1,5 @@
 import React from 'react'
-import Headboard from '../components/header'
+import Header from '../components/header'
 import "../styles/dashboard.css"
 import Dashcard from '../components/dashcard'
 
@@ -7,7 +7,7 @@ import Dashcard from '../components/dashcard'
 export default function Dashboard() {
   return (
     <div>
-      <Headboard></Headboard>
+      <Header></Header>
 
       <div className='row'>
         <Dashcard name= "Meeting" note="Office meeting starts at 9 O'Clock"></Dashcard>

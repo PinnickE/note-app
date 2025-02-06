@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/signup.css'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from "axios";
 
 export default function Signup() {
     const [name, setName] = useState('')
@@ -8,15 +9,36 @@ export default function Signup() {
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        //sends the request to the backend
-        // const response = req.send
-        //if (response.sucess == true)
-        // sign this user in
-        console.log("User Signup successfully: ", name, email, password)
-        navigate('/login')
-    }
+    // const handleSubmit = (e) => {
+    //     e.preventDefault()
+    //     //sends the request to the backend
+    //     // const response = req.send
+    //     //if (response.sucess == true)
+    //     // sign this user in
+    //     console.log("User Signup successfully: ", name, email, password)
+    //     navigate('/login')
+    // }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+      
+        try {
+          const response = await axios.post("http://localhost:5000/api/auth/register", {
+            name,
+            email,
+            password
+          });
+      
+          if (response.data.success) {
+            alert("Account created successfully! Please log in.");
+            navigate("/login");
+          } else {
+            alert(response.data.message);
+          }
+        } catch (error) {
+          alert("Signup failed. Please try again.");
+        }
+      };
     
   return (
     <div className='signup_container'>

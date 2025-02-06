@@ -18,7 +18,7 @@ const router = express.Router()
  */
 router.post('/register', async (req, res) => {
     try {
-        console.log("It has entered this registered function")
+        console.log("It has entered this registered function") 
     const {name, email, password} = req.body
 
     console.log("name, email, password: ", name, email, password)
@@ -112,7 +112,7 @@ router.post('/login', async (req, res) => {
             })
         }
 
-        const token = jwt.sign({id: user._id}, process.env.JWT_TOKEN, {expiresIn: "5m"})
+        const token = await jwt.sign({id: user._id}, process.env.JWT_TOKEN, {expiresIn: "1m"})
 
         console.log("token: ", token)
 
