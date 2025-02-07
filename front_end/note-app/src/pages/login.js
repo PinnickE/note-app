@@ -1,17 +1,44 @@
 import React, {useState} from 'react'
 import "../styles/login.css"
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Login() {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState('');
 
-  const submitLogin = (e) => {
+  console.log("user email before signup: ", userEmail)
+
+  const submitLogin = async (e) => {
     e.preventDefault();
-    console.log("You have successfully logged in with the following details: ", loginEmail, loginPassword);
-    navigate("/dashboard");
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email: loginEmail,
+        password: loginPassword
+      });
+
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("email", response.data.email)
+        localStorage.setItem("name", response.data.name)
+
+        setUserEmail(localStorage.getItem('email'))
+        console.log("user email after signup: ", userEmail)
+        navigate('/dashboard')
+      } else {
+        alert(response.data.message)
+      }
+    } catch (error) {
+      if (!error.response.data.success) {
+        alert(error.response.data.message)
+      } else {
+        alert("Login failed. plaease check your credentials")
+      }
+    }
   }
 
   return (
@@ -34,6 +61,8 @@ export default function Login() {
             <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
           </div>
         </form>
+
+        <div>{userEmail}</div>
       </div>
     </div>
   )

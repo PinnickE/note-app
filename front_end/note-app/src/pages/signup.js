@@ -24,7 +24,7 @@ export default function Signup() {
             console.log("response: ", response)
 
             if (response.data.success) {
-                alert("Account created successfully! please login")
+                navigate('/login')
             } else if (response.status === 400) {
                 setErrorMessage(response.data.message)
             }

@@ -87,7 +87,45 @@ JWT_TOKEN=secretkeyofnoteapp123@#
  */
 
 router.post('/login', async (req, res) => {
-    
+    try {
+      const {email, password} = req.body;
+
+      const user = await User.findOne({email})
+
+      if (!user) {
+        return res.status(400).json({
+          success: false,
+          message: "User does not exist."
+        })
+      }
+
+      const checkPassword = await bcrypt.compare(password, user.password);
+
+      if (checkPassword === false) {
+        return res.status(400).json({
+          success: false,
+          message: "Incorrect password"      
+        })
+      }
+
+      else {
+        const token = await jwt.sign({id: user.id,}, process.env.JWT_TOKEN, {expiresIn: "5m"})
+
+        return res.status(200).json({
+          success: true,
+          message: "Login successful.",
+          token,
+          name: user.name,
+          email: user.email
+        })
+      };
+ 
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Server error."
+      })
+    }
 })
 
 

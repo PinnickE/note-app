@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "../styles/header.css"
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function Header () {
   const navigate = useNavigate()
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    setName(localStorage.getItem('name'))
+  }, [])
 
   const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('email')
+    localStorage.removeItem('name')
     navigate('/login')
   }
   return (
@@ -16,7 +24,7 @@ export default function Header () {
         <input placeholder='Search notes...' id='search'/>
 
         <div className='profile_box'>
-            <span className='username'>Username</span>
+            <span className='username'>{name}</span>
             <Link to="/login">
               Login
             </Link>
