@@ -16,6 +16,9 @@ export default function Header () {
     localStorage.removeItem('name')
     navigate('/login')
   }
+  /**
+   * BUG: page is always refresh to get the update. fix it
+   */
   return (
     <div className='header_container'>
         <h3 className='logo'>
