@@ -92,8 +92,6 @@ router.post('/login', async (req, res) => {
     try {
         const {email, password} = req.body;
 
-        
-
         const user = await User.findOne({email})
 
         if(!user) {
@@ -126,7 +124,6 @@ router.post('/login', async (req, res) => {
             user: {name: user.name, email: user.email},
         })
 
-
     } catch (error) {
         return res.status(500).json({
             success: false, 
@@ -134,8 +131,6 @@ router.post('/login', async (req, res) => {
         })
     }
 })
-
-
 
 
 export default router
