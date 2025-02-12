@@ -7,7 +7,7 @@ import express from 'express' // 1
 import connectToDB from './db/db.js'
 import dotenv from 'dotenv'
 import userRouter from './routes/user.js'
-import cors from 'cors'
+import cors from 'cors' 
 
 
 dotenv.config()

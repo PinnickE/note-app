@@ -6,11 +6,13 @@ import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
+import Header from './components/header';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+    <Header/>
       <Routes>
         <Route path='/' element={<Home/>}></Route>
         <Route path='/signup' element={<Signup/>}></Route>
