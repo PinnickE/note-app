@@ -27,29 +27,59 @@ router.post('/create-note', async (req, res) => {
 })
 
 router.get('/get-notes', async (req, res) => {
-    /**
-     * find all the notes pertaining to a particular user (67a4a363af49dba8e429dd39)
-     * send responss to the frontend
-     */
-
     try {
-        const allNotes = await Note.find({userId: "67a4a8370cca69cdace1e68c"})
-    
-        return res.status(200).json({
-            success: true,
-            allNotes 
-         })
+        const notes = await Note.find();
+        res.status(200).json({ success: true, notes });
+
     } catch (error) {
-        
+        res.status(500).json({ success: false, message: "Server error" });
     }
 })
 
-router.put('/update-note', async (req, res) => {
-    console.log("Note Updated")
+// Get a single note by ID
+router.get('/get-note/:id', async (req, res) => {
+    try {
+        const note = await Note.findById(req.params.id);
+
+        if (!note) return res.status(404).json({ success: false, message: "Note not found" });
+
+        res.status(200).json({ success: true, note });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+router.put('/update-note/:id', async (req, res) => {
+    try {
+        const { title, description } = req.body;
+
+        const updatedNote = await Note.findByIdAndUpdate(
+            req.params.id,
+            { title, description },
+            { new: true }
+        );
+
+        if (!updatedNote) return res.status(404).json({ success: false, message: "Note not found" });
+
+        res.status(200).json({ success: true, message: "Note updated", note: updatedNote });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
 })
 
-router.delete('/delete-note', async (req, res) => {
-    console.log("Note deleted")
+router.delete('/delete-note/:id', async (req, res) => { 
+    try {
+        const deletedNote = await Note.findByIdAndDelete(req.params.id);
+
+        if (!deletedNote) return res.status(404).json({ success: false, message: "Note not found" });
+
+        res.status(200).json({ success: true, message: "Note deleted" });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
 })
 
 export default router
