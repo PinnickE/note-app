@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../styles/header.css"
 import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../contexts/authContext';
 
 export default function Header () {
   const navigate = useNavigate()
   const [name, setName] = useState('');
+  const user = useContext(AuthContext)
 
   useEffect(() => {
     setName(localStorage.getItem('name'))
@@ -31,7 +33,7 @@ export default function Header () {
             {/* if user is not null, render only name and logout else render login and signin  ?:*/}
             {name ? (
               <div>
-                <span className='username'>{name}</span>
+                <span className='username'>{user}</span>
                 <button onClick={handleLogout}>Logout</button>
               </div>
             ) : (

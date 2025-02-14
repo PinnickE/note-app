@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import "../styles/login.css"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { AuthContext } from '../contexts/authContext';
 
 export default function Login() {
 
@@ -9,6 +10,7 @@ export default function Login() {
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState('');
+  const {login} = useContext(AuthContext)
 
   console.log("user email before signup: ", userEmail)
 
@@ -22,10 +24,11 @@ export default function Login() {
       });
 
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem("email", response.data.email)
-        localStorage.setItem("name", response.data.name)
+        // localStorage.setItem("token", response.data.token)
+        // localStorage.setItem("email", response.data.email)
+        // localStorage.setItem("name", response.data.name)
 
+        login(response.data.name, response.data.email, response.data.token)
         setUserEmail(localStorage.getItem('email'))
         console.log("user email after signup: ", userEmail)
         navigate('/dashboard')
