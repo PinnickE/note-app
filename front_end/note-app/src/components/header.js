@@ -5,12 +5,12 @@ import { AuthContext } from '../contexts/authContext';
 
 export default function Header () {
   const navigate = useNavigate()
-  const [name, setName] = useState('');
-  const user = useContext(AuthContext)
+  // const [name, setName] = useState('');
+  const {name} = useContext(AuthContext)
 
-  useEffect(() => {
-    setName(localStorage.getItem('name'))
-  }, [])
+  // useEffect(() => {
+  //   setName(localStorage.getItem('name'))
+  // }, [])
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -33,7 +33,7 @@ export default function Header () {
             {/* if user is not null, render only name and logout else render login and signin  ?:*/}
             {name ? (
               <div>
-                <span className='username'>{user}</span>
+                <span className='username'>{name}</span>
                 <button onClick={handleLogout}>Logout</button>
               </div>
             ) : (

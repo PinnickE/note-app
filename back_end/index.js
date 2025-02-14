@@ -17,6 +17,7 @@ const app = express() //2
 
 const allowedOrigins = [
     "http://localhost:3000",
+    "http://localhost:3001",
 ]
 
 app.use(cors({
