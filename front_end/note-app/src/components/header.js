@@ -6,16 +6,15 @@ import { AuthContext } from '../contexts/authContext';
 export default function Header () {
   const navigate = useNavigate()
   // const [name, setName] = useState('');
-  const {name} = useContext(AuthContext)
+  const {name, logout} = useContext(AuthContext)
+  // const {logout} = useContext(AuthContext)
 
   // useEffect(() => {
   //   setName(localStorage.getItem('name'))
   // }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('email')
-    localStorage.removeItem('name')
+    logout()
     navigate('/login')
   }
   /**

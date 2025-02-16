@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../components/header'
 import "../styles/dashboard.css"
 import Dashcard from '../components/dashcard'
+import { AuthContext } from '../contexts/authContext'
 
 
 export default function Dashboard() {
+  const {name} = useContext(AuthContext)
   return (
     <div>
       {/* <Header></Header> */}
@@ -18,6 +20,10 @@ export default function Dashboard() {
         <Dashcard name= "Play" note="Play football"></Dashcard>
         <Dashcard name= "Research" note="Study for research"></Dashcard>
         <Dashcard name= "Prepare" note="Prepare PC"></Dashcard>
+      </div>
+
+      <div>
+        this is the name of the current user: {name}
       </div>
       
     </div>

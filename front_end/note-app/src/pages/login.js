@@ -14,6 +14,10 @@ export default function Login() {
 
   console.log("user email before signup: ", userEmail)
 
+  /**
+   * TASK: It should display error message instead of an alert
+   */
+
   const submitLogin = async (e) => {
     e.preventDefault();
 
