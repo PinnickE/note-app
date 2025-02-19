@@ -27,20 +27,12 @@ router.post('/create-note', async (req, res) => {
 })
 
 router.get('/get-notes', async (req, res) => {
-    /**
-     * find all the notes pertaining to a particular user (67a4a363af49dba8e429dd39)
-     * send responss to the frontend
-     */
-
     try {
-        const allNotes = await Note.find({userId: "67a4a8370cca69cdace1e68c"})
-    
-        return res.status(200).json({
-            success: true,
-            allNotes 
-         })
+        const notes = await Note.find();
+        res.status(200).json({ success: true, notes });
+
     } catch (error) {
-        
+        res.status(500).json({ success: false, message: "Server error" });
     }
 })
 
