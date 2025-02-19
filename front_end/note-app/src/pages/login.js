@@ -10,12 +10,14 @@ export default function Login() {
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState("")
   const {login} = useContext(AuthContext)
 
   console.log("user email before signup: ", userEmail)
 
   const submitLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login", {
@@ -33,13 +35,13 @@ export default function Login() {
         console.log("user email after signup: ", userEmail)
         navigate('/dashboard')
       } else {
-        alert(response.data.message)
+        setErrorMessage(response.data.message)
       }
     } catch (error) {
       if (!error.response.data.success) {
-        alert(error.response.data.message)
+        setErrorMessage(error.response.data.message)
       } else {
-        alert("Login failed. plaease check your credentials")
+        setErrorMessage("Login failed. plaease check your credentials")
       }
     }
   }
@@ -57,6 +59,7 @@ export default function Login() {
           <div className='input_segment'>
             <label htmlFor='password'>Password</label>
             <input placeholder='Enter Password' required type='password' id='password' onChange={(e) => setLoginPassword(e.target.value)}/>
+            {errorMessage && <p style={{color: "red", fontSize: "14px"}}>{errorMessage}</p>}
           </div>
 
           <div className='action'>
