@@ -33,7 +33,7 @@ router.get('/get-notes', async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ success: false, message: "Server error" });
-    }
+    } 
 })
 
 router.put('/update-note', async (req, res) => {
