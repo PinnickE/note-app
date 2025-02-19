@@ -9,7 +9,7 @@ router.post('/create-note', async (req, res) => {
 
         const newNoteObject = new Note({
             title,
-            description,
+            description, 
             userId
         });
 
@@ -26,6 +26,7 @@ router.post('/create-note', async (req, res) => {
     }
 })
 
+// for admin priviledge
 router.get('/get-notes', async (req, res) => {
     try {
         const notes = await Note.find();
@@ -36,12 +37,63 @@ router.get('/get-notes', async (req, res) => {
     } 
 })
 
-router.put('/update-note', async (req, res) => {
-    console.log("Note Updated")
+router.get('/get-note/:id', async (req, res) => {
+    try {
+        const note = await Note.findById(req.params.id);
+        if(!note) {
+            res.status(200).json({ success: false, message: "Note not found" });
+        }
+        res.status(200).json({ success: true, note });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" });
+    } 
 })
 
-router.delete('/delete-note', async (req, res) => {
-    console.log("Note deleted")
+router.get('/get-notes-by-user', async (req, res) => {
+    try {
+        const allNotes = await Note.find({userId: "67a4a113af49dba8e429dd35"}) 
+        //  if(!allNotes){
+        //     console.log("no notes")
+        //  }
+        res.status(200).json({ success: true, allNotes });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" });
+    } 
+})
+
+router.put('/update-note/:id', async (req, res) => { 
+    try {
+        const {title, description} = req.body;
+    
+        /**
+         * FUTURE: Find out how to manage for 20 properties in a model
+         */
+        const updatedNote = await Note.findByIdAndUpdate(req.params.id, {title, description}, {new: true})
+    
+        if(!updatedNote) {
+            res.status(404).json({ success: false, message: "Note not found" });
+        }
+        res.status(200).json({ success: true, message: "Note updated",  note: updatedNote });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" }); 
+    }
+
+})
+
+router.delete('/delete-note/:id', async (req, res) => {
+    try {
+        const deletedNote = await Note.findByIdAndDelete(req.params.id)
+    
+        if(!deletedNote) {
+            res.status(404).json({ success: false, message: "Note not found" });
+        }
+    
+        res.status(200).json({ success: true, message: "Note deleted" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" }); 
+    }
+
 })
 
 export default router
