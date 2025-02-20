@@ -34,7 +34,7 @@ export default function Login() {
         // localStorage.setItem("email", response.data.email)
         // localStorage.setItem("name", response.data.name)
 
-        login(response.data.name, response.data.email, response.data.token)
+        login(response.data.name, response.data.email, response.data.token, response.data.userId)
         setUserEmail(localStorage.getItem('email'))
         console.log("user email after signup: ", userEmail)
         navigate('/dashboard')
@@ -58,11 +58,14 @@ export default function Login() {
           <div className='input_segment'>
             <label htmlFor='email'>Email</label>
             <input placeholder='Enter Email' required type='email' id='email' onChange={(e) => setLoginEmail(e.target.value)}/>
+            {/* <input placeholder='Enter Email' required type='email' id='email' value="emmanuel@gmail.com"/> */}
+            {/* <input placeholder='Enter Email' required type='email' id='email' value="edoghotugiddy@gmail.com"/> */}
           </div>
 
           <div className='input_segment'>
             <label htmlFor='password'>Password</label>
             <input placeholder='Enter Password' required type='password' id='password' onChange={(e) => setLoginPassword(e.target.value)}/>
+            {/* <input placeholder='Enter Password' required type='password' id='password' value="12345"/> */}
             {errorMessage && <p style={{color: "red", fontSize: "14px"}}>{errorMessage}</p>}
           </div>
 
