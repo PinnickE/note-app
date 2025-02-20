@@ -52,7 +52,7 @@ router.get('/get-note/:id', async (req, res) => {
 
 router.get('/get-notes-by-user', async (req, res) => {
     try {
-        const allNotes = await Note.find({userId: "67a4a113af49dba8e429dd35"}) 
+        const allNotes = await Note.find({userId: req.query.userId}) 
         //  if(!allNotes){
         //     console.log("no notes")
         //  }

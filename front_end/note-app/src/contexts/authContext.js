@@ -8,24 +8,31 @@ export const AuthProvider = ({children}) => {
         return localStorage.getItem("name" || "")
     })
 
+    const [userId, setUserId] = useState(() => {
+        return localStorage.getItem("userId" || "")
+    })
 
-    const login = (name, email, token) => {
+
+    const login = (name, email, token, userId) => {
         localStorage.setItem("name", name)
         localStorage.setItem("email", email)
-
         localStorage.setItem("token", token)
+        localStorage.setItem("userId", userId)
         setName(name)
+        setUserId(userId)
     }
 
     const logout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('email')
         localStorage.removeItem('name')
+        localStorage.removeItem('userId')
         setName("")
+        setUserId("")
     }
 
     return (
-        <AuthContext.Provider value={{name, login, logout}}>
+        <AuthContext.Provider value={{name, login, logout, userId}}>
             {children}
         </AuthContext.Provider>
     )
