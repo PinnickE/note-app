@@ -1,5 +1,6 @@
 import express from 'express'
 import Note from '../models/note.js'
+import mongoose from 'mongoose';
 
 const router = express.Router()
 
@@ -14,6 +15,7 @@ router.post('/create-note', async (req, res) => {
         });
 
         await newNoteObject.save()
+        console.log("newNoteObject created note: ", newNoteObject)
         return res.status(201).json({
             success: true,
             message: "Note created successfully.",
@@ -52,10 +54,12 @@ router.get('/get-note/:id', async (req, res) => {
 
 router.get('/get-notes-by-user', async (req, res) => {
     try {
-        const allNotes = await Note.find({userId: "67a4a113af49dba8e429dd35"}) 
-        //  if(!allNotes){
-        //     console.log("no notes")
-        //  }
+        // console.log("entered route")
+        // const userId = new mongoose.Types.ObjectId(req.query.userId);
+        // console.log("userId to fetch: ", userId)
+        const allNotes = await Note.find({userId: req.query.userId}); 
+        console.log("allNotes: ", allNotes)
+        
         res.status(200).json({ success: true, allNotes });
     } catch (error) {
         res.status(500).json({ success: false, message: "Server error" });

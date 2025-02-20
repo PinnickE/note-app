@@ -111,12 +111,15 @@ router.post('/login', async (req, res) => {
       else {
         const token = await jwt.sign({id: user.id,}, process.env.JWT_TOKEN, {expiresIn: "5m"})
 
+        console.log("userId: ", user._id)
+
         return res.status(200).json({
           success: true,
           message: "Login successful.",
           token,
           name: user.name,
-          email: user.email
+          email: user.email,
+          userId: user._id
         })
       };
  

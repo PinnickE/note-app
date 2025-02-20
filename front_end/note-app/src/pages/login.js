@@ -34,7 +34,7 @@ export default function Login() {
         // localStorage.setItem("email", response.data.email)
         // localStorage.setItem("name", response.data.name)
 
-        login(response.data.name, response.data.email, response.data.token)
+        login(response.data.name, response.data.email, response.data.token, response.data.userId)
         setUserEmail(localStorage.getItem('email'))
         console.log("user email after signup: ", userEmail)
         navigate('/dashboard')
