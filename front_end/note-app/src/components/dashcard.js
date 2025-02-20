@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import "../styles/dashcard.css"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+// import React, { useState } from 'react'
+// import "../styles/dashcard.css"
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 // export default function Dashcard(props) {
 //   let cardName = props.name;
@@ -20,47 +20,18 @@ import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 // }
 
 
-export default function Dashcard(props) {
-  const { name, note, onEdit, onDelete } = props
-  const [isEditing, setIsEditing] = useState(false)
-  const [editedNote, setEditedNote] = useState({ title: name, description: note })
+// Dashcard.js
+import React from 'react';
 
-  const handleEdit = () => {
-    setIsEditing(true)
-  }
-
-  const handleSave = () => {
-    onEdit(editedNote)
-    setIsEditing(false)
-  }
-
+export default function Dashcard({ name, note, onClick, onEdit, onDelete }) {
   return (
-    <div className='card_container'>
-      {isEditing ? (
-        <div>
-          <input
-            type='text'
-            value={editedNote.title}
-            onChange={(e) => setEditedNote({ ...editedNote, title: e.target.value })}
-          />
-          <input
-            type='text'
-            value={editedNote.description}
-            onChange={(e) => setEditedNote({ ...editedNote, description: e.target.value })}
-          />
-          <button onClick={handleSave}>Save</button>
-        </div>
-      ) : (
-        <div>
-          <h4 className='card_head'>{name}</h4>
-          <p className='card-text'>{note}</p>
-        </div>
-      )}
-
-      <div className='icons'>
-        <div className='pen' onClick={handleEdit}><FontAwesomeIcon icon={faPenToSquare} /></div>
-        <div className='trash' onClick={onDelete}><FontAwesomeIcon icon={faTrash} /></div>
+    <div className="dashcard" onClick={onClick}>
+      <h3>{name}</h3>
+      <p>{note}</p>
+      <div className="actions">
+        <button onClick={(e) => { e.stopPropagation(); onEdit && onEdit({ title: name, description: note }); }}>Edit</button>
+        <button onClick={(e) => { e.stopPropagation(); onDelete && onDelete(); }}>Delete</button>
       </div>
     </div>
-  )
+  );
 }
