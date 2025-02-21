@@ -57,6 +57,21 @@ export default function Dashboard() {
       console.error("Error creating user notes: ", error)
     }
   }
+
+  console.log("hello wordl", notes)
+  console.log(`hello world ${notes}`)
+
+  // Update note implementation
+  const handleEditNote = async (updatedNote) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/api/note/update-note/${updatedNote._id}`,updatedNote);
+      
+    } catch (error) {
+      console.error("Error creating user notes: ", error)
+    }
+  }
+
+
   return (
     <div>
       <div>
@@ -79,9 +94,12 @@ export default function Dashboard() {
           <Dashcard 
             key={note._id}
             name={note.title}
-            note={note.description}/>
+            note={note.description}
+            onEdit={(updatedNote) => handleEditNote({... updatedNote, _id: note._id})}/>
         ))}
       </div>
+
+      
       
     </div>
   )
