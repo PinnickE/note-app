@@ -43,6 +43,15 @@ export default function Dashboard() {
       }
     }
 
+    /**
+     * notes = ["1", "2", "3"]
+     * 
+     * notes = ["1", "2", "5", "4"]
+     * 
+     * var a = 6
+     * var a = 9
+     */
+
   // Add note implementation
   const handleAddNote = async () => {
     try {
@@ -64,11 +73,24 @@ export default function Dashboard() {
   // Update note implementation
   const handleEditNote = async (updatedNote) => {
     try {
+      console.log("updated note that was selected: ", updatedNote)
       const response = await axios.put(`http://localhost:5000/api/note/update-note/${updatedNote._id}`,updatedNote);
+      setNotes(notes.map(note => note._id === updatedNote._id ? response.data.note : note))
       
     } catch (error) {
       console.error("Error creating user notes: ", error)
     }
+  }
+
+  // Delete note implementation
+  const handleDeleteNote = async (noteId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/note/delete-note/${noteId}`);
+      setNotes(notes.filter(note => note._id !== noteId))
+    } catch (error) {
+      console.error("Error creating user notes: ", error)
+    }
+    console.log("noteId inside handledeletenote: ", noteId)
   }
 
 
@@ -95,7 +117,8 @@ export default function Dashboard() {
             key={note._id}
             name={note.title}
             note={note.description}
-            onEdit={(updatedNote) => handleEditNote({... updatedNote, _id: note._id})}/>
+            onEdit={(updatedNote) => handleEditNote({... updatedNote, _id: note._id})}
+            onDelete={() => handleDeleteNote(note._id)}/>
         ))}
       </div>
 
