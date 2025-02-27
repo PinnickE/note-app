@@ -1,13 +1,15 @@
 import express from 'express'
 import Note from '../models/note.js'
+import verifyUser from '../middleware/verifyUser.js';
+import isTitleValid from '../middleware/isTitleValid.js';
 
 const router = express.Router()
 
-router.post('/create-note', async (req, res) => {
-    try {
+router.post('/create-note', verifyUser, async (req, res) => {
+    try { 
         const {title, description, userId} = req.body;
 
-        const newNoteObject = new Note({
+        const newNoteObject = new Note({ 
             title,
             description, 
             userId
@@ -27,7 +29,7 @@ router.post('/create-note', async (req, res) => {
 })
 
 // for admin priviledge
-router.get('/get-notes', async (req, res) => {
+router.get('/get-notes', verifyUser, async (req, res) => {
     try {
         const notes = await Note.find();
         res.status(200).json({ success: true, notes });
