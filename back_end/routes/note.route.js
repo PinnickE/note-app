@@ -1,9 +1,10 @@
 import express from 'express'
 import Note from '../models/note.js'
+import auth from '../middleware/auth.js';
 
 const router = express.Router()
 
-router.post('/create-note', async (req, res) => {
+router.post('/create-note', auth, async (req, res) => {
     try {
         const {title, description, userId} = req.body;
 
@@ -22,12 +23,12 @@ router.post('/create-note', async (req, res) => {
 
 
     } catch (error) {
-        
+        res.status(500).json({ success: false, message: "Server error" });
     }
 })
 
 // for admin priviledge
-router.get('/get-notes', async (req, res) => {
+router.get('/get-notes', auth, async (req, res) => {
     try {
         const notes = await Note.find();
         res.status(200).json({ success: true, notes });
@@ -37,20 +38,20 @@ router.get('/get-notes', async (req, res) => {
     } 
 })
 
-router.get('/get-note/:id', async (req, res) => {
-    try {
-        const note = await Note.findById(req.params.id);
-        if(!note) {
-            res.status(200).json({ success: false, message: "Note not found" });
-        }
-        res.status(200).json({ success: true, note });
+// router.get('/get-note/:id', auth, async (req, res) => {
+//     try {
+//         const note = await Note.findById(req.params.id);
+//         if(!note) {
+//             res.status(200).json({ success: false, message: "Note not found" });
+//         }
+//         res.status(200).json({ success: true, note });
 
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Server error" });
-    } 
-})
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: "Server error" });
+//     } 
+// })
 
-router.get('/get-notes-by-user', async (req, res) => {
+router.get('/get-notes-by-user', auth, async (req, res) => {
     try {
         const allNotes = await Note.find({userId: req.query.userId}) 
         //  if(!allNotes){
@@ -62,7 +63,7 @@ router.get('/get-notes-by-user', async (req, res) => {
     } 
 })
 
-router.put('/update-note/:id', async (req, res) => { 
+router.put('/update-note/:id', auth, async (req, res) => { 
     try {
         const {title, description} = req.body;
     
@@ -81,7 +82,7 @@ router.put('/update-note/:id', async (req, res) => {
 
 })
 
-router.delete('/delete-note/:id', async (req, res) => {
+router.delete('/delete-note/:id', auth, async (req, res) => {
     try {
         const deletedNote = await Note.findByIdAndDelete(req.params.id)
     
