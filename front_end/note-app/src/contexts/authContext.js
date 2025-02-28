@@ -12,6 +12,10 @@ export const AuthProvider = ({children}) => {
         return localStorage.getItem("userId" || "")
     })
 
+    const [token, setToken] = useState(() => {
+        return localStorage.getItem("token" || "")
+    })
+
 
     const login = (name, email, token, userId) => {
         localStorage.setItem("name", name)
@@ -20,6 +24,7 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem("userId", userId)
         setName(name)
         setUserId(userId)
+        setToken(token)
     }
 
     const logout = () => {
@@ -32,7 +37,7 @@ export const AuthProvider = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{name, login, logout, userId}}>
+        <AuthContext.Provider value={{name, token, login, logout, userId}}>
             {children}
         </AuthContext.Provider>
     )

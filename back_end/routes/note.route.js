@@ -39,7 +39,7 @@ router.get('/get-notes', verifyUser, async (req, res) => {
     } 
 })
 
-router.get('/get-note/:id', async (req, res) => {
+router.get('/get-note/:id', verifyUser, async (req, res) => {
     try {
         const note = await Note.findById(req.params.id);
         if(!note) {
@@ -52,7 +52,7 @@ router.get('/get-note/:id', async (req, res) => {
     } 
 })
 
-router.get('/get-notes-by-user', async (req, res) => {
+router.get('/get-notes-by-user', verifyUser, async (req, res) => {
     try {
         const allNotes = await Note.find({userId: req.query.userId}) 
         //  if(!allNotes){
@@ -64,7 +64,7 @@ router.get('/get-notes-by-user', async (req, res) => {
     } 
 })
 
-router.put('/update-note/:id', async (req, res) => { 
+router.put('/update-note/:id', verifyUser, async (req, res) => { 
     try {
         const {title, description} = req.body;
     
@@ -83,7 +83,7 @@ router.put('/update-note/:id', async (req, res) => {
 
 })
 
-router.delete('/delete-note/:id', async (req, res) => {
+router.delete('/delete-note/:id', verifyUser, async (req, res) => {
     try {
         const deletedNote = await Note.findByIdAndDelete(req.params.id)
     

@@ -8,7 +8,7 @@ import axios from 'axios'
 
 
 export default function Dashboard() {
-  const {name, userId} = useContext(AuthContext)
+  const {name, userId, token} = useContext(AuthContext)
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState({
     title: "",
@@ -33,7 +33,11 @@ export default function Dashboard() {
     const fetchNotes = async (userId) => {
       try {
         const response = await axios.get("http://localhost:5000/api/note/get-notes-by-user", {
-          params: {userId}
+          params: {userId},
+          headers: {
+            // Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${token}`
+          }
         });
         setNotes(response.data.allNotes)
         console.log("Notes info: ", notes)
@@ -58,6 +62,11 @@ export default function Dashboard() {
       const response = await axios.post("http://localhost:5000/api/note/create-note", {
         ...newNote,
         userId
+      }, {
+        headers: {
+          // Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${token}`
+        }
       });
       setNotes([...notes, response.data.note])
       setNewNote({title: "", description: ""})
@@ -74,7 +83,12 @@ export default function Dashboard() {
   const handleEditNote = async (updatedNote) => {
     try {
       console.log("updated note that was selected: ", updatedNote)
-      const response = await axios.put(`http://localhost:5000/api/note/update-note/${updatedNote._id}`,updatedNote);
+      const response = await axios.put(`http://localhost:5000/api/note/update-note/${updatedNote._id}`,updatedNote, {
+        headers: {
+          // Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${token}`
+        }
+      });
       setNotes(notes.map(note => note._id === updatedNote._id ? response.data.note : note))
       
     } catch (error) {
@@ -85,7 +99,12 @@ export default function Dashboard() {
   // Delete note implementation
   const handleDeleteNote = async (noteId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/note/delete-note/${noteId}`);
+      const response = await axios.delete(`http://localhost:5000/api/note/delete-note/${noteId}`, {
+        headers: {
+          // Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${token}`
+        }
+      });
       setNotes(notes.filter(note => note._id !== noteId))
     } catch (error) {
       console.error("Error creating user notes: ", error)
